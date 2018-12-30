@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-deployment
+  labels:
+    app: cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart
+  template:
+    metadata:
+      labels:
+        app: cart
+    spec:
+      containers:
+        - name: cart
+          image: markoambrozic/cart:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://postgres:5432/postgres
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: dbuser
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              value: postgres
