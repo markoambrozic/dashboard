@@ -54,7 +54,7 @@ public class CartResource {
     public Response createNewCart() {
         Cart c = new Cart();
         c.setId(null);
-        c.setCartJSON("{[]}");
+        c.setCartJSON("{\"items\": []}");
 
         em.getTransaction().begin();
 
