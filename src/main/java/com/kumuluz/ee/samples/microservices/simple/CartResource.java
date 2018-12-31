@@ -12,9 +12,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import com.kumuluz.ee.logs.cdi.Log;
-import com.kumuluz.ee.logs.cdi.LogParams;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.kumuluz.ee.samples.microservices.simple.Models.Cart;
+import com.kumuluz.ee.samples.microservices.simple.Models.Item;
 
 @Path("/cart")
 @RequestScoped
@@ -61,6 +63,61 @@ public class CartResource {
         em.getTransaction().commit();
 
         return Response.status(Response.Status.CREATED).entity(c.getId()).build();
+    }
+
+    @POST
+    @Path("/addToCart/{cartId}")
+    public Response addItemToCart(Item i, @PathParam("cartId") Integer id) {
+        em.getTransaction().begin();
+
+        Cart c = em.find(Cart.class, id);
+
+        String cartJSONString = c.getCartJSON();
+        JSONObject cartJSON = new JSONObject(cartJSONString);
+
+        JSONArray items = (JSONArray) cartJSON.get("items");
+        items.put(i.getItemJSON());
+
+        cartJSON.put("items", items);
+        c.setCartJSON(cartJSON.toString());
+
+        em.persist(c);
+        em.getTransaction().commit();
+
+        return Response.status(Response.Status.OK).entity(c).build();
+    }
+
+    @POST
+    @Path("/removeFromCart/{cartId}")
+    public Response removeItemFromCart(Item i, @PathParam("cartId") Integer id) throws Exception {
+        em.getTransaction().begin();
+
+        Cart c = em.find(Cart.class, id);
+
+        String cartJSONString = c.getCartJSON();
+        JSONObject cartJSON = new JSONObject(cartJSONString);
+
+        JSONArray items = (JSONArray) cartJSON.get("items");
+
+        int index = 0;
+        for (Object item : items) {
+            JSONObject itemJSON = (JSONObject) item;
+
+            if (Integer.parseInt(itemJSON.get("productId").toString()) == i.getProductId()) {
+                break;
+            }
+            index++;
+        }
+
+        items.remove(index);
+
+        cartJSON.put("items", items);
+        c.setCartJSON(cartJSON.toString());
+
+        em.persist(c);
+        em.getTransaction().commit();
+
+        return Response.status(Response.Status.OK).entity(c).build();
     }
 
 }
