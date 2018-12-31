@@ -32,8 +32,6 @@ public class CartResource {
     public Response getCarts() {
         TypedQuery<Cart> query = em.createNamedQuery("Cart.findAll", Cart.class);
 
-        LOG.trace("query debug", query);
-
         List<Cart> carts = query.getResultList();
 
         return Response.ok(carts).build();
@@ -42,13 +40,27 @@ public class CartResource {
     @GET
     @Path("/{id}")
     public Response getCart(@PathParam("id") Integer id) {
-
         Cart c = em.find(Cart.class, id);
 
         if (c == null)
             return Response.status(Response.Status.NOT_FOUND).build();
 
         return Response.ok(c).build();
+    }
+
+    @POST
+    public Response createNewCart() {
+        Cart c = new Cart();
+        c.setId(null);
+        c.setCartJSON("{[]}");
+
+        em.getTransaction().begin();
+
+        em.persist(c);
+
+        em.getTransaction().commit();
+
+        return Response.status(Response.Status.CREATED).entity(c.getId()).build();
     }
 
 }

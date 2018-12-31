@@ -21,16 +21,16 @@ public class Cart {
         return cartJSON;
     }
 
+    public void setCartJSON(String cartJSON) {
+        this.cartJSON = cartJSON;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setCartJSON(String cartJSON) {
-        this.cartJSON = cartJSON;
     }
 
     public Date getOrderDate() {
