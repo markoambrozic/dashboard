@@ -8,8 +8,8 @@ install:
   - mvn -N io.takari:maven:wrapper
   - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t markoambrozic/cart:1.0.2 .
-  - docker push markoambrozic/cart
+  - docker build -t markoambrozic/dashboard:1.0.2 .
+  - docker push markoambrozic/dashboard
 before_deploy:
   - cd deploy
   - chmod +x ./deploy.sh
@@ -17,7 +17,7 @@ deploy:
   provider: script
   script: ./deploy.sh
   on:
-    repo: markoambrozic/cart
+    repo: markoambrozic/dashboard
     branch: master
   skip_cleanup: true
 cache:

@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rso-ecommerce-cart</artifactId>
+    <artifactId>rso-ecommerce-dashboard</artifactId>
 
-    <name>Ecommerce cart</name>
-    <description>Ecommerce cart</description>
+    <name>Ecommerce dashboard</name>
+    <description>Ecommerce dashboard</description>
 
     <dependencies>
         <dependency>
