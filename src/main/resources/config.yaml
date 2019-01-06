@@ -1,12 +1,9 @@
 kumuluzee:
-  name: cart-service
+  name: dashboard-service
   env:
     name: dev
   version: 1.0.0
-  server:
-    base-url: http://localhost:8082
-    http:
-      port: 8082
+
   datasources:
     - jndi-name: jdbc/BooksDS
       connection-url: jdbc:postgresql://postgres:5432/postgres

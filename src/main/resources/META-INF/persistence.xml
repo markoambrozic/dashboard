@@ -9,7 +9,6 @@
 
         <non-jta-data-source>jdbc/BooksDS</non-jta-data-source>
 
-        <class>com.kumuluz.ee.samples.microservices.simple.Models.Cart</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="create"/>

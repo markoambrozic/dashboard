@@ -7,5 +7,5 @@ import com.kumuluz.ee.discovery.annotations.RegisterService;
 
 @ApplicationPath("/")
 @RegisterService
-public class CartApplication extends Application{
+public class DashboardApplication extends Application{
 }
