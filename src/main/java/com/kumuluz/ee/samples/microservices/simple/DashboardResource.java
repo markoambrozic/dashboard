@@ -14,10 +14,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.kumuluz.ee.logs.cdi.Log;
+import javax.inject.Inject;
 
-
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import org.json.JSONObject;
-
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Optional;
 
 
 
@@ -34,15 +40,19 @@ public class DashboardResource {
 
     private static final Logger LOG = LogManager.getLogger(DashboardResource.class.getName());
 
+    @Inject
+    @DiscoverService(value = "emailing-service", environment = "dev", version = "*")
+    private Optional<WebTarget> target;
 
-
+    //TODO ustvari
     @GET
     public Response getDashboard() {
         JSONObject obj = new JSONObject();
 
         obj.put("dashboard", "fancy info about people");
 
-
         return Response.ok(obj.toString()).build();
     }
+
+
 }
