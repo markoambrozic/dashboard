@@ -40,18 +40,46 @@ public class DashboardResource {
 
     private static final Logger LOG = LogManager.getLogger(DashboardResource.class.getName());
 
+    //TODO spremeni service v tisti za ustvarjanje in drugo
+    //narejen primer klicanja
     @Inject
     @DiscoverService(value = "emailing-service", environment = "dev", version = "*")
     private Optional<WebTarget> target;
 
-    //TODO ustvari
     @GET
     public Response getDashboard() {
         JSONObject obj = new JSONObject();
 
+        JSONObject mailobj = new JSONObject();
         obj.put("dashboard", "fancy info about people");
 
-        return Response.ok(obj.toString()).build();
+        mailobj.put("from","somemail");
+        mailobj.put("to","somemail");
+        mailobj.put("subject","somemail");
+        mailobj.put("body","somemail");
+
+        if (target.isPresent()) {
+            WebTarget service = target.get().path("email/sendEmail");
+
+            Response response;
+            try {
+
+                response = service.request().post(Entity.json(mailobj.toString()));
+            } catch (ProcessingException e) {
+                e.printStackTrace();
+                return Response.ok(obj.toString()).build();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Response.ok(obj.toString()).build();
+            }
+
+            return Response.fromResponse(response).build();
+        } else {
+            return Response.ok(obj.toString()).build();
+        }
+
+
+
     }
 
 
