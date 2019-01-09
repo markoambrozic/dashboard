@@ -8,7 +8,7 @@ install:
   - mvn -N io.takari:maven:wrapper
   - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t markoambrozic/dashboard:1.0.0 .
+  - docker build -t markoambrozic/dashboard:1.0.1 .
   - docker push markoambrozic/dashboard
 before_deploy:
   - cd deploy

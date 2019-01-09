@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dashboard
-          image: markoambrozic/dashboard:1.0.0
+          image: markoambrozic/dashboard:1.0.1
           ports:
             - containerPort: 8080
           env:
