@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dashboard
-          image: markoambrozic/dashboard:1.0.1
+          image: markoambrozic/dashboard:1.0.2
           ports:
             - containerPort: 8080
           env:
@@ -26,3 +26,7 @@ spec:
               value: dbuser
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: postgres
+            - name: KUMULUZEE_CONFIG_ETCD_HOSTS
+              value: http://etcd:2379
+            - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+              value: http://etcd:2379
