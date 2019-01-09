@@ -40,47 +40,64 @@ public class DashboardResource {
 
     private static final Logger LOG = LogManager.getLogger(DashboardResource.class.getName());
 
-    //TODO spremeni service v tisti za ustvarjanje in drugo
-    //narejen primer klicanja
     @Inject
-    @DiscoverService(value = "emailing-service", environment = "dev", version = "*")
+    @DiscoverService(value = "catalog-service", environment = "dev", version = "*")
     private Optional<WebTarget> target;
 
     @GET
     public Response getDashboard() {
-        JSONObject obj = new JSONObject();
 
-        JSONObject mailobj = new JSONObject();
-        obj.put("dashboard", "fancy info about people");
+        return Response.status(Response.Status.OK).build();
+    }
 
-        mailobj.put("from","somemail");
-        mailobj.put("to","somemail");
-        mailobj.put("subject","somemail");
-        mailobj.put("body","somemail");
-
+    @POST
+    @Path("/createProduct")
+    public Response createProduct(String productJSON ){
+        Response response;
         if (target.isPresent()) {
-            WebTarget service = target.get().path("email/sendEmail");
+            WebTarget service = target.get().path("products");
 
-            Response response;
             try {
 
-                response = service.request().post(Entity.json(mailobj.toString()));
+                response = service.request().post(Entity.json(productJSON));
             } catch (ProcessingException e) {
                 e.printStackTrace();
-                return Response.ok(obj.toString()).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             } catch (Exception e) {
                 e.printStackTrace();
-                return Response.ok(obj.toString()).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
 
             return Response.fromResponse(response).build();
         } else {
-            return Response.ok(obj.toString()).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-
-
 
     }
 
+    @GET
+    @Path("/listProducts")
+    public Response listProducts(){
+        Response response;
+        if (target.isPresent()) {
+            WebTarget service = target.get().path("products");
+
+            try {
+
+                response = service.request().get();
+            } catch (ProcessingException e) {
+                e.printStackTrace();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+
+            return Response.fromResponse(response).build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
 
 }
