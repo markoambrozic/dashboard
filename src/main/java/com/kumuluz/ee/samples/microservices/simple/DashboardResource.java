@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
-
+import org.eclipse.microprofile.metrics.annotation.Metered;
 
 
 
@@ -45,6 +45,7 @@ public class DashboardResource {
     private Optional<WebTarget> target;
 
     @GET
+    @Metered(name = "get-dashboard")
     public Response getDashboard() {
 
         return Response.status(Response.Status.OK).build();

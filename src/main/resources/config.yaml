@@ -3,6 +3,10 @@ kumuluzee:
   env:
     name: dev
   version: 1.0.0
+  metrics:
+    web-instrumentation:
+      - name: dashboard-endpoint
+        url-pattern: /dashboard
 
   datasources:
     - jndi-name: jdbc/BooksDS
