@@ -78,6 +78,7 @@ public class DashboardResource {
 
     @GET
     @Path("/listProducts")
+    @Metered(name = "listProducts-dashboard")
     public Response listProducts(){
         Response response;
         if (target.isPresent()) {
